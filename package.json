@@ -1,0 +1,35 @@
+{
+  "name": "lol-ui",
+  "version": "0.0.0",
+  "description": "Experimental UI",
+  "homepage": "https://github.com/VovanR/lol-ui",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/VovanR/lol-ui.git"
+  },
+  "author": {
+    "name": "VovanR",
+    "url": "http://vovanr.com/"
+  },
+  "devDependencies": {
+    "bower": "",
+    "gulp": "",
+    "gulp-connect": "",
+    "gulp-jscs": "",
+    "gulp-jshint": "",
+    "gulp-requirejs": "",
+    "gulp-uglify": "",
+    "jscs": "",
+    "jscs-jsdoc": "",
+    "jshint-stylish": "",
+    "yargs": ""
+  },
+  "scripts": {
+    "postinstall": "./node_modules/.bin/bower install",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/VovanR/lol-ui/issues"
+  }
+}
