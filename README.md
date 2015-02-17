@@ -14,6 +14,11 @@ gulp
 ```
 Then open [http://localhost:8000/](http://localhost:8000/)
 
+### Testing
+```
+open ./src/scripts/button/button-test.html
+```
+
 ## Building
 ```
 gulp build
