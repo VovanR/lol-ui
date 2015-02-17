@@ -44,8 +44,10 @@ gulp.task('build-scripts', function () {
         // exclude: ['jquery'],
         out: 'all.js',
         paths: {
+            lodash: '../bower_components/lodash/lodash',
             pixi: '../bower_components/pixi.js/bin/pixi',
             uiButton: './button/button',
+            uiProgressbar: './progressbar/progressbar',
         },
         shim: {
         },
