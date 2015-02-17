@@ -9,9 +9,22 @@
     </head>
     <body>
 
-<canvas id="game"></canvas>
-
+<!-- @ifndef DEBUG !>
 <script src="js/all.js"></script>
+<!-- @endif -->
+
+<!-- @ifdef DEBUG -->
+<script src="./bower_components/requirejs/require.js"></script>
+<script>
+require.config({
+    baseUrl: './',
+    paths: {
+        pixi: './bower_components/pixi.js/bin/pixi',
+    },
+});
+require(['./scripts/main']);
+</script>
+<!-- @endif -->
 
     </body>
 </html>

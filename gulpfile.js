@@ -1,6 +1,7 @@
 // See: http://gulpjs.com/
 
 var gulp = require('gulp');
+var preprocess = require('gulp-preprocess');
 var connect = require('gulp-connect');
 
 var argv = require('yargs').argv;
@@ -28,21 +29,22 @@ gulp.task('lint', function () {
         .pipe(jscs());
 });
 
-gulp.task('html', function () {
-    gulp.src('./dist/*.html')
+gulp.task('scripts', function () {
+    return gulp
+        .src('./src/scripts/**/*.js')
         .pipe(connect.reload());
 });
 
-gulp.task('scripts', function () {
+gulp.task('build-scripts', function () {
     rjs({
         baseUrl: 'src/scripts',
-        name: '../../bower_components/almond/almond',
+        name: '../bower_components/almond/almond',
         include: ['main'],
         insertRequire: ['main'],
         // exclude: ['jquery'],
         out: 'all.js',
         paths: {
-            jquery: '../../bower_components/jquery/jquery',
+            pixi: '../bower_components/pixi.js/bin/pixi',
         },
         shim: {
         },
@@ -52,19 +54,36 @@ gulp.task('scripts', function () {
     .pipe(gulp.dest('./dist/js'));
 });
 
+gulp.task('html', function () {
+    return gulp
+        .src('./src/index.html')
+        .pipe(connect.reload());
+});
+
+gulp.task('build-html', function () {
+    return gulp
+        .src('./src/index.html')
+        .pipe(preprocess({
+            context: {
+               DEBUG: undefined,
+            },
+        }))
+        .pipe(gulp.dest('./dist/'));
+});
+
 gulp.task('connect', function () {
-    connect.server({
-        root: 'dist',
+    return connect.server({
+        root: 'src',
         port: 8000,
         livereload: true,
     });
 });
 
 gulp.task('watch', function () {
-    gulp.watch(['./dist/*.html'], ['html']);
+    gulp.watch(['./src/index.html'], ['html']);
     gulp.watch(['./src/scripts/**/*.js'], ['scripts']);
 });
 
-gulp.task('build', ['lint', 'scripts']);
+gulp.task('build', ['build-html', 'build-scripts']);
 
 gulp.task('default', ['connect', 'watch']);

@@ -18,6 +18,7 @@
     "gulp-connect": "",
     "gulp-jscs": "",
     "gulp-jshint": "",
+    "gulp-preprocess": "^1.2.0",
     "gulp-requirejs": "",
     "gulp-uglify": "",
     "jscs": "",
