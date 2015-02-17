@@ -3,18 +3,18 @@ Lol UI
 
 Experimental UI on [pixi.js](https://github.com/GoodBoyDigital/pixi.js/)
 
-# Initialization
+## Initialization
 ```
 npm i
 ```
 
-# Development
+## Development
 ```
 gulp
 ```
 Then open [http://localhost:8000/](http://localhost:8000/)
 
-# Building
+## Building
 ```
 gulp build
 ```
