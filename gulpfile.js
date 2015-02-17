@@ -45,6 +45,7 @@ gulp.task('build-scripts', function () {
         out: 'all.js',
         paths: {
             pixi: '../bower_components/pixi.js/bin/pixi',
+            uiButton: './button/button',
         },
         shim: {
         },

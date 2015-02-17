@@ -16,13 +16,10 @@
 <!-- @ifdef DEBUG -->
 <script src="./bower_components/requirejs/require.js"></script>
 <script>
-require.config({
-    baseUrl: './',
-    paths: {
-        pixi: './bower_components/pixi.js/bin/pixi',
-    },
+requirejs.config.baseUrl = './';
+requirejs(['./scripts/common'], function () {
+    requirejs(['./scripts/main']);
 });
-require(['./scripts/main']);
 </script>
 <!-- @endif -->
 

@@ -1,7 +1,9 @@
 define([
     'pixi',
+    'uiButton',
 ], function (
-    PIXI
+    PIXI,
+    UIButton
 ) {
 
     'use strict';
@@ -26,5 +28,7 @@ define([
         // render the stage
         renderer.render(stage);
     };
+
+    var button = new UIButton();
 
 });
