@@ -27,3 +27,6 @@ Then open in browser
 ```
 open ./dist/index.html
 ```
+
+## Specifications
+![Unit Panel](specs/unit_panel.png)
