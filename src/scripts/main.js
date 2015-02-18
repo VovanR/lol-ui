@@ -20,14 +20,15 @@ define([
     // add the renderer view element to the DOM
     document.body.appendChild(renderer.view);
 
-    requestAnimFrame(animate);
-
-    // var animate = function () {
-    function animate () {
-        requestAnimFrame(animate);
+    /**
+     */
+    window.animate = function () {
+        window.requestAnimFrame(window.animate);
         // render the stage
         renderer.render(stage);
     };
+
+    window.requestAnimFrame(window.animate);
 
     var button = new UIButton();
 

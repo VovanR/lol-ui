@@ -24,18 +24,13 @@ define([
             return m;
         };
 
-        var stage;
-        var renderer;
-        var initStage = function () {
-            // create an new instance of a pixi stage
-            stage = new PIXI.Stage(0x66FF99);
-            // create a renderer instance
-            renderer = PIXI.autoDetectRenderer(220, 40);
-            console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
-            // add the renderer view element to the DOM
-            document.getElementById('fixtures').appendChild(renderer.view);
-        };
-        initStage();
+        // create an new instance of a pixi stage
+        var stage = new PIXI.Stage(0x66FF99);
+        // create a renderer instance
+        var renderer = PIXI.autoDetectRenderer(220, 40);
+        console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
+        // add the renderer view element to the DOM
+        document.getElementById('fixtures').appendChild(renderer.view);
 
         beforeEach(function () {
             stage.stage.children.forEach(function (item) {
@@ -160,6 +155,30 @@ define([
         });
 
         describe('drawing box', function () {
+            /**
+             */
+            var getStr = function (m) {
+                m._draw();
+                stage.addChild(m._graphics);
+                renderer.render(stage);
+                var str = renderer.view.toDataURL('image/png');
+
+                return str;
+            };
+
+            /**
+             */
+            var compareDrawing = function (o) {
+                resemble(getStr(o.instance))
+                    .compareTo(o.spec)
+                    .onComplete(function (data) {
+                        assert.isObject(data);
+                        assert.isTrue(data.isSameDimensions);
+                        assert.ok(data.misMatchPercentage < o.misMatchPercentage);
+                        o.done();
+                    });
+            };
+
             describe('_draw', function () {
                 it('should draw progressbar', function (done) {
                     var m = module({
@@ -168,18 +187,12 @@ define([
                             y: 10,
                         },
                     });
-                    m._draw();
-                    stage.addChild(m._graphics);
-                    renderer.render(stage);
-                    var str = renderer.view.toDataURL('image/png');
-                    resemble(str)
-                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_1.png')
-                        .onComplete(function (data) {
-                            assert.isObject(data);
-                            assert.isTrue(data.isSameDimensions);
-                            assert.ok(data.misMatchPercentage < 0.1);
-                            done();
-                        });
+                    compareDrawing({
+                        instance: m,
+                        spec: './base_1.png',
+                        misMatchPercentage: 0.1,
+                        done: done,
+                    });
                 });
 
                 it('should draw progressbar progress', function (done) {
@@ -190,18 +203,12 @@ define([
                             y: 10,
                         },
                     });
-                    m._draw();
-                    stage.addChild(m._graphics);
-                    renderer.render(stage);
-                    var str = renderer.view.toDataURL('image/png');
-                    resemble(str)
-                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_2.png')
-                        .onComplete(function (data) {
-                            assert.isObject(data);
-                            assert.isTrue(data.isSameDimensions);
-                            assert.ok(data.misMatchPercentage < 0.1);
-                            done();
-                        });
+                    compareDrawing({
+                        instance: m,
+                        spec: './base_2.png',
+                        misMatchPercentage: 0.1,
+                        done: done,
+                    });
                 });
 
                 it('should draw progressbar progress lt 100%', function (done) {
@@ -212,18 +219,12 @@ define([
                             y: 10,
                         },
                     });
-                    m._draw();
-                    stage.addChild(m._graphics);
-                    renderer.render(stage);
-                    var str = renderer.view.toDataURL('image/png');
-                    resemble(str)
-                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_3.png')
-                        .onComplete(function (data) {
-                            assert.isObject(data);
-                            assert.isTrue(data.isSameDimensions);
-                            assert.ok(data.misMatchPercentage < 0.1);
-                            done();
-                        });
+                    compareDrawing({
+                        instance: m,
+                        spec: './base_3.png',
+                        misMatchPercentage: 0.1,
+                        done: done,
+                    });
                 });
 
                 it('should draw progressbar progress lt 50%', function (done) {
@@ -234,18 +235,12 @@ define([
                             y: 10,
                         },
                     });
-                    m._draw();
-                    stage.addChild(m._graphics);
-                    renderer.render(stage);
-                    var str = renderer.view.toDataURL('image/png');
-                    resemble(str)
-                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_4.png')
-                        .onComplete(function (data) {
-                            assert.isObject(data);
-                            assert.isTrue(data.isSameDimensions);
-                            assert.ok(data.misMatchPercentage < 0.1);
-                            done();
-                        });
+                    compareDrawing({
+                        instance: m,
+                        spec: './base_4.png',
+                        misMatchPercentage: 0.1,
+                        done: done,
+                    });
                 });
 
                 it('should be responsible', function (done) {
@@ -258,18 +253,12 @@ define([
                             y: 10,
                         },
                     });
-                    m._draw();
-                    stage.addChild(m._graphics);
-                    renderer.render(stage);
-                    var str = renderer.view.toDataURL('image/png');
-                    resemble(str)
-                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_5.png')
-                        .onComplete(function (data) {
-                            assert.isObject(data);
-                            assert.isTrue(data.isSameDimensions);
-                            assert.ok(data.misMatchPercentage < 0.3);
-                            done();
-                        });
+                    compareDrawing({
+                        instance: m,
+                        spec: './base_5.png',
+                        misMatchPercentage: 0.3,
+                        done: done,
+                    });
                 });
             });
         });
