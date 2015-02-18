@@ -24,7 +24,7 @@ define([
      * Progressbar
      *
      * @param {Object} [o] Options
-     * @param {Number} [o.value=0]
+     * @param {Number} [o.value=0] 0..100
      * @param {Object} [o.position]
      * @param {Number} [o.position.x=0]
      * @param {Number} [o.position.y=0]
@@ -41,6 +41,7 @@ define([
 
         this._bgColor = 0x24383C;
         this._progressColors = [0x006600, 0xCAAA15, 0xFF5300];
+        this._shape = null;
 
         this._init();
     };
@@ -53,13 +54,31 @@ define([
          */
         _init: function () {
             console.info('Progressbar init');
+
+            this._draw();
         },
 
         /**
+         * Initislize progressbar shape and fire drawing
+         *
          * @private
          */
         _draw: function () {
-            var graphics = new PIXI.Graphics();
+            this._shape = new PIXI.Graphics();
+            var position = this._position;
+            this._shape.x = position.x;
+            this._shape.y = position.y;
+
+            this._redraw();
+        },
+
+        /**
+         * Draw progressbar
+         *
+         * @private
+         */
+        _redraw: function () {
+            var graphics = this._shape;
             var width = this._width;
             var height = this._height;
 
@@ -83,19 +102,30 @@ define([
             var progressWidth = Math.round((width * value) / 100);
             graphics.drawRect(0, 0, progressWidth, height);
             graphics.endFill();
-
-            var position = this._position;
-            graphics.x = position.x;
-            graphics.y = position.y;
-
-            this._graphics = graphics;
         },
 
         /**
-         * @param {Number} value
+         * Set progressbar value
+         *
+         * @param {Number} value 0..100
          */
         setValue: function (value) {
+            if (value < 0) {
+                value = 0
+            } else if (value > 100) {
+                value = 100
+            }
             this._value = value;
+            this._redraw();
+        },
+
+        /**
+         * Returns progressbar shape
+         *
+         * @return {PIXI.Graphics} shape
+         */
+        getShape: function () {
+            return this._shape;
         },
     };
 

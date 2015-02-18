@@ -154,32 +154,36 @@ define([
             });
         });
 
+        /**
+         */
+        var getStr = function (m) {
+            stage.addChild(m._shape);
+            renderer.render(stage);
+            var str = renderer.view.toDataURL('image/png');
+
+            return str;
+        };
+
+        /**
+         */
+        var compareDrawing = function (o) {
+            resemble(getStr(o.instance))
+                .compareTo(o.spec)
+                .onComplete(function (data) {
+                    assert.isObject(data);
+                    assert.isTrue(data.isSameDimensions);
+                    assert.ok(data.misMatchPercentage < o.misMatchPercentage);
+                    o.done();
+                });
+        };
+
         describe('drawing box', function () {
-            /**
-             */
-            var getStr = function (m) {
-                m._draw();
-                stage.addChild(m._graphics);
-                renderer.render(stage);
-                var str = renderer.view.toDataURL('image/png');
-
-                return str;
-            };
-
-            /**
-             */
-            var compareDrawing = function (o) {
-                resemble(getStr(o.instance))
-                    .compareTo(o.spec)
-                    .onComplete(function (data) {
-                        assert.isObject(data);
-                        assert.isTrue(data.isSameDimensions);
-                        assert.ok(data.misMatchPercentage < o.misMatchPercentage);
-                        o.done();
-                    });
-            };
-
             describe('_draw', function () {
+                it('should be fired on initialize', function () {
+                    var m = module();
+                    assert.instanceOf(m._shape, PIXI.Graphics);
+                });
+
                 it('should draw progressbar', function (done) {
                     var m = module({
                         position: {
@@ -263,11 +267,49 @@ define([
             });
         });
 
+        describe('_redraw', function () {
+            it('should update progressbar shape', function (done) {
+                var m = module({
+                    position: {
+                        x: 10,
+                        y: 10,
+                    },
+                });
+                m._value = 90;
+                m._redraw();
+                compareDrawing({
+                    instance: m,
+                    spec: './base_3.png',
+                    misMatchPercentage: 0.1,
+                    done: done,
+                });
+            });
+        });
+
         describe('#setValue', function () {
             it('should set progressbar value', function () {
                 var m = module();
                 m.setValue(10);
                 assert.equal(m._value, 10);
+            });
+
+            it('should filter input value lt 0', function () {
+                var m = module();
+                m.setValue(-10);
+                assert.equal(m._value, 0);
+            });
+
+            it('should filter input value gt 100', function () {
+                var m = module();
+                m.setValue(1000);
+                assert.equal(m._value, 100);
+            });
+        });
+
+        describe('#getShape', function () {
+            it('should return progressbar graphics', function () {
+                var m = module();
+                assert.instanceOf(m.getShape(), PIXI.Graphics);
             });
         });
     });
