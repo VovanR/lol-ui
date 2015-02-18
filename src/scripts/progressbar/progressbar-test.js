@@ -93,14 +93,42 @@ define([
             });
 
             describe('size options', function () {
-                it('should have `width`', function () {
-                    var m = module();
-                    assert.equal(m._width, 100);
+                describe('`width` option', function () {
+                    it('should be Number', function () {
+                        var m = module();
+                        assert.isNumber(m._width);
+                    });
+
+                    it('should init value', function () {
+                        var m = module({
+                            width: 150,
+                        });
+                        assert.equal(m._width, 150);
+                    });
+
+                    it('should have default values', function () {
+                        var m = module();
+                        assert.equal(m._width, 100);
+                    });
                 });
 
-                it('should have `height`', function () {
-                    var m = module();
-                    assert.equal(m._height, 10);
+                describe('`height` option', function () {
+                    it('should be Number', function () {
+                        var m = module();
+                        assert.isNumber(m._height);
+                    });
+
+                    it('should init value', function () {
+                        var m = module({
+                            height: 20,
+                        });
+                        assert.equal(m._height, 20);
+                    });
+
+                    it('should have default values', function () {
+                        var m = module();
+                        assert.equal(m._height, 10);
+                    });
                 });
             });
 
@@ -134,13 +162,18 @@ define([
         describe('drawing box', function () {
             describe('_draw', function () {
                 it('should draw progressbar', function (done) {
-                    var m = module();
+                    var m = module({
+                        position: {
+                            x: 10,
+                            y: 10,
+                        },
+                    });
                     m._draw();
                     stage.addChild(m._graphics);
                     renderer.render(stage);
                     var str = renderer.view.toDataURL('image/png');
                     resemble(str)
-                        .compareTo('./src/scripts/progressbar/base_1.png')
+                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_1.png')
                         .onComplete(function (data) {
                             assert.isObject(data);
                             assert.isTrue(data.isSameDimensions);
@@ -152,13 +185,17 @@ define([
                 it('should draw progressbar progress', function (done) {
                     var m = module({
                         value: 100,
+                        position: {
+                            x: 10,
+                            y: 10,
+                        },
                     });
                     m._draw();
                     stage.addChild(m._graphics);
                     renderer.render(stage);
                     var str = renderer.view.toDataURL('image/png');
                     resemble(str)
-                        .compareTo('./src/scripts/progressbar/base_2.png')
+                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_2.png')
                         .onComplete(function (data) {
                             assert.isObject(data);
                             assert.isTrue(data.isSameDimensions);
@@ -170,13 +207,17 @@ define([
                 it('should draw progressbar progress lt 100%', function (done) {
                     var m = module({
                         value: 90,
+                        position: {
+                            x: 10,
+                            y: 10,
+                        },
                     });
                     m._draw();
                     stage.addChild(m._graphics);
                     renderer.render(stage);
                     var str = renderer.view.toDataURL('image/png');
                     resemble(str)
-                        .compareTo('./src/scripts/progressbar/base_3.png')
+                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_3.png')
                         .onComplete(function (data) {
                             assert.isObject(data);
                             assert.isTrue(data.isSameDimensions);
@@ -188,13 +229,17 @@ define([
                 it('should draw progressbar progress lt 50%', function (done) {
                     var m = module({
                         value: 40,
+                        position: {
+                            x: 10,
+                            y: 10,
+                        },
                     });
                     m._draw();
                     stage.addChild(m._graphics);
                     renderer.render(stage);
                     var str = renderer.view.toDataURL('image/png');
                     resemble(str)
-                        .compareTo('./src/scripts/progressbar/base_4.png')
+                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_4.png')
                         .onComplete(function (data) {
                             assert.isObject(data);
                             assert.isTrue(data.isSameDimensions);
@@ -202,6 +247,38 @@ define([
                             done();
                         });
                 });
+
+                it('should be responsible', function (done) {
+                    var m = module({
+                        width: 150,
+                        height: 20,
+                        value: 75,
+                        position: {
+                            x: 10,
+                            y: 10,
+                        },
+                    });
+                    m._draw();
+                    stage.addChild(m._graphics);
+                    renderer.render(stage);
+                    var str = renderer.view.toDataURL('image/png');
+                    resemble(str)
+                        .compareTo('/home/vova/work/lol-ui/src/scripts/progressbar/base_5.png')
+                        .onComplete(function (data) {
+                            assert.isObject(data);
+                            assert.isTrue(data.isSameDimensions);
+                            assert.ok(data.misMatchPercentage < 0.3);
+                            done();
+                        });
+                });
+            });
+        });
+
+        describe('#setValue', function () {
+            it('should set progressbar value', function () {
+                var m = module();
+                m.setValue(10);
+                assert.equal(m._value, 10);
             });
         });
     });
