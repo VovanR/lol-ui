@@ -4,8 +4,10 @@
 
 define([
     'lodash',
+    'pixi',
 ], function (
-    _
+    _,
+    PIXI
 ) {
 
     var defaultOptions = {
@@ -31,9 +33,10 @@ define([
         this._value = o.value;
         this._position = o.position;
 
-        this._width = 512;
-        this._height = 32;
-        this._fillColors = ['#006600', '#CAAA15', '#FF5300'];
+        this._width = 100;
+        this._height = 10;
+        this._bgColor = 0x24383C;
+        this._progressColors = [0x006600, 0xCAAA15, 0xFF5300];
 
         this._init();
     };
@@ -46,6 +49,28 @@ define([
          */
         _init: function () {
             console.info('Progressbar init');
+        },
+
+        _draw: function () {
+            var graphics = new PIXI.Graphics();
+            graphics.lineStyle(0);
+            graphics.beginFill(this._bgColor);
+            graphics.drawRect(10, 10, 100, 10);
+            graphics.endFill();
+
+            var progressColor;
+            if (this._value === 100) {
+                progressColor = this._progressColors[0];
+            } else if (this._value > 50) {
+                progressColor = this._progressColors[1];
+            } else {
+                progressColor = this._progressColors[2];
+            }
+            graphics.beginFill(progressColor);
+            graphics.drawRect(10, 10, this._value, 10);
+            graphics.endFill();
+
+            this._graphics = graphics;
         },
     };
 

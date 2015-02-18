@@ -15,7 +15,8 @@
     "mocha": "~1.21.4",
     "pixi.js": "~2.2.5",
     "requirejs": "~2.1.14",
-    "lodash": "~3.2.0"
+    "lodash": "~3.2.0",
+    "resemblejs": "~1.2.1"
   },
   "ignore": [
     "**/.*",

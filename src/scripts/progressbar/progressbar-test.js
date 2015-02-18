@@ -1,8 +1,12 @@
 define([
     'chai',
+    'pixi',
+    'resemble',
     'uiProgressbar',
 ], function (
     chai,
+    PIXI,
+    resemble,
     UIProgressbar
 ) {
 
@@ -19,6 +23,25 @@ define([
 
             return m;
         };
+
+        var stage;
+        var renderer;
+        var initStage = function () {
+            // create an new instance of a pixi stage
+            stage = new PIXI.Stage(0x66FF99);
+            // create a renderer instance
+            renderer = PIXI.autoDetectRenderer(220, 40);
+            console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
+            // add the renderer view element to the DOM
+            document.getElementById('fixtures').appendChild(renderer.view);
+        };
+        initStage();
+
+        beforeEach(function () {
+            stage.stage.children.forEach(function (item) {
+                stage.removeChild(item);
+            });
+        });
 
         describe('constructor', function () {
             it('should initialize', function () {
@@ -72,26 +95,112 @@ define([
             describe('size options', function () {
                 it('should have `width`', function () {
                     var m = module();
-                    assert.equal(m._width, 512);
+                    assert.equal(m._width, 100);
                 });
 
                 it('should have `height`', function () {
                     var m = module();
-                    assert.equal(m._height, 32);
+                    assert.equal(m._height, 10);
                 });
             });
 
-            describe('fill colors option', function () {
+            describe('progress background color option', function () {
+                it('should be Number', function () {
+                    var m = module();
+                    assert.isNumber(m._bgColor);
+                });
+
+                it('should have default value', function () {
+                    var m = module();
+                    assert.equal(m._bgColor, 0x24383C);
+                });
+            });
+
+            describe('progress colors option', function () {
                 it('should be Array', function () {
                     var m = module();
-                    assert.isArray(m._fillColors);
+                    assert.isArray(m._progressColors);
                 });
 
                 it('should have default values', function () {
                     var m = module();
-                    assert.equal(m._fillColors[0], '#006600');
-                    assert.equal(m._fillColors[1], '#CAAA15');
-                    assert.equal(m._fillColors[2], '#FF5300');
+                    assert.equal(m._progressColors[0], 0x006600);
+                    assert.equal(m._progressColors[1], 0xCAAA15);
+                    assert.equal(m._progressColors[2], 0xFF5300);
+                });
+            });
+        });
+
+        describe('drawing box', function () {
+            describe('_draw', function () {
+                it('should draw progressbar', function (done) {
+                    var m = module();
+                    m._draw();
+                    stage.addChild(m._graphics);
+                    renderer.render(stage);
+                    var str = renderer.view.toDataURL('image/png');
+                    resemble(str)
+                        .compareTo('./src/scripts/progressbar/base_1.png')
+                        .onComplete(function (data) {
+                            assert.isObject(data);
+                            assert.isTrue(data.isSameDimensions);
+                            assert.ok(data.misMatchPercentage < 0.1);
+                            done();
+                        });
+                });
+
+                it('should draw progressbar progress', function (done) {
+                    var m = module({
+                        value: 100,
+                    });
+                    m._draw();
+                    stage.addChild(m._graphics);
+                    renderer.render(stage);
+                    var str = renderer.view.toDataURL('image/png');
+                    resemble(str)
+                        .compareTo('./src/scripts/progressbar/base_2.png')
+                        .onComplete(function (data) {
+                            assert.isObject(data);
+                            assert.isTrue(data.isSameDimensions);
+                            assert.ok(data.misMatchPercentage < 0.1);
+                            done();
+                        });
+                });
+
+                it('should draw progressbar progress lt 100%', function (done) {
+                    var m = module({
+                        value: 90,
+                    });
+                    m._draw();
+                    stage.addChild(m._graphics);
+                    renderer.render(stage);
+                    var str = renderer.view.toDataURL('image/png');
+                    resemble(str)
+                        .compareTo('./src/scripts/progressbar/base_3.png')
+                        .onComplete(function (data) {
+                            assert.isObject(data);
+                            assert.isTrue(data.isSameDimensions);
+                            assert.ok(data.misMatchPercentage < 0.1);
+                            done();
+                        });
+                });
+
+                it('should draw progressbar progress lt 50%', function (done) {
+                    var m = module({
+                        value: 40,
+                    });
+                    m._draw();
+                    stage.addChild(m._graphics);
+                    renderer.render(stage);
+                    var str = renderer.view.toDataURL('image/png');
+                    resemble(str)
+                        .compareTo('./src/scripts/progressbar/base_4.png')
+                        .onComplete(function (data) {
+                            assert.isObject(data);
+                            assert.isTrue(data.isSameDimensions);
+                            assert.ok(data.misMatchPercentage < 0.1);
+                            done();
+                        });
                 });
             });
         });
