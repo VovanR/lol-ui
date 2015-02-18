@@ -26,6 +26,7 @@ define([
 
         // create an new instance of a pixi stage
         var stage = new PIXI.Stage(0x66FF99);
+        stage.interactive = true;
         // create a renderer instance
         var renderer = PIXI.autoDetectRenderer(220, 220);
         console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
@@ -104,6 +105,29 @@ define([
                     it('should have default values', function () {
                         var m = module();
                         assert.equal(m._height, 100);
+                    });
+                });
+            });
+
+            describe('button textures', function () {
+                describe('normal texture', function () {
+                    it('should be Texture', function () {
+                        var m = module();
+                        assert.instanceOf(this._textureButton, PIXI.Texture);
+                    });
+                });
+
+                describe('hovered texture', function () {
+                    it('should be Texture', function () {
+                        var m = module();
+                        assert.instanceOf(this._textureButton, PIXI.Texture);
+                    });
+                });
+
+                describe('pressed texture', function () {
+                    it('should be Texture', function () {
+                        var m = module();
+                        assert.instanceOf(this._textureButton, PIXI.Texture);
                     });
                 });
             });
