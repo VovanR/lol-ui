@@ -61,6 +61,13 @@ define([
                 });
             });
 
+            describe('`textures` option', function () {
+                it('should be `Object`', function () {
+                    var m = module();
+                    assert.isObject(m._textures);
+                });
+            });
+
             describe('`position` option', function () {
                 it('should be Object', function () {
                     var m = module();
@@ -82,6 +89,17 @@ define([
                     var m = module();
                     assert.equal(m._position.x, 0);
                     assert.equal(m._position.y, 0);
+                });
+
+                it('should set button shape position', function () {
+                    var m = module({
+                        position: {
+                            x: 2,
+                            y: 3,
+                        },
+                    });
+                    assert.equal(m._shape.x, 2);
+                    assert.equal(m._shape.y, 3);
                 });
             });
 
@@ -417,6 +435,13 @@ define([
                     m._shape.tap();
                     assert.isTrue(isFired);
                 });
+            });
+        });
+
+        describe('#getShape', function () {
+            it('should return button shape', function () {
+                var m = module();
+                assert.instanceOf(m.getShape(), PIXI.Sprite);
             });
         });
     });

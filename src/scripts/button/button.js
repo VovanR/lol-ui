@@ -11,6 +11,11 @@ define([
 ) {
 
     var defaultOptions = {
+        textures: {
+            normal: 'button.png',
+            hovered: 'button-hovered.png',
+            pressed: 'button-pressed.png',
+        },
         position: {
             x: 0,
             y: 0,
@@ -42,6 +47,7 @@ define([
         this._onClickCallback = o.onClick;
         this._onTapCallback = o.onTap;
 
+        this._textures = o.textures;
         this._textureButton = null;
         this._textureButtonHovered = null;
         this._textureButtonPressed = null;
@@ -62,9 +68,10 @@ define([
         _init: function () {
             console.info('Button init');
 
-            this._textureButton = PIXI.Texture.fromImage('button.png');
-            this._textureButtonHovered = PIXI.Texture.fromImage('button-hovered.png');
-            this._textureButtonPressed = PIXI.Texture.fromImage('button-pressed.png');
+            var textures = this._textures;
+            this._textureButton = PIXI.Texture.fromImage(textures.normal);
+            this._textureButtonHovered = PIXI.Texture.fromImage(textures.hovered);
+            this._textureButtonPressed = PIXI.Texture.fromImage(textures.pressed);
 
             this._draw();
         },
@@ -76,6 +83,8 @@ define([
             var shape = new PIXI.Sprite(this._textureButton);
             shape.buttonMode = true;
             shape.interactive = true;
+            shape.x = this._position.x;
+            shape.y = this._position.y;
 
             this._shape = shape;
 
@@ -196,6 +205,15 @@ define([
             if (this._onTapCallback) {
                 button.tap = this._onTapCallback;
             }
+        },
+
+        /**
+         * Returns button shape
+         *
+         * @return {PIXI.Sprite} shape
+         */
+        getShape: function () {
+            return this._shape;
         },
     };
 

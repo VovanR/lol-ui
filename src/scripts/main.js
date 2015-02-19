@@ -32,15 +32,38 @@ define([
 
     window.requestAnimFrame(window.animate);
 
-    var button = new UIButton();
+    var button = new UIButton({
+        textures: {
+            normal: './scripts/button/button.png',
+            hovered: './scripts/button/button-hovered.png',
+            pressed: './scripts/button/button-pressed.png',
+        },
+        position: {
+            x: 10,
+            y: 50,
+        },
+        /**
+         */
+        onClick: function () {
+            alert('Click!');
+        },
+        /**
+         */
+        onTap: function () {
+            alert('Tap!');
+        },
+    });
+    console.log('button', button);
+    stage.addChild(button.getShape());
+
     var progressbar = new UIProgressbar({
         position: {
             x: 10,
             y: 10,
-            width: 200,
-            height: 30,
-            value: 100,
         },
+        width: 200,
+        height: 30,
+        value: 100,
     });
     console.log('progressbar', progressbar);
     stage.addChild(progressbar.getShape());
