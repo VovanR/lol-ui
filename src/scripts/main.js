@@ -32,16 +32,27 @@ define([
 
     window.requestAnimFrame(window.animate);
 
+    var panel = new PIXI.DisplayObjectContainer();
+    panel.position.x = 0;
+    panel.position.y = renderer.height - 220;
+    stage.addChild(panel);
+
+    var panelBgr = new PIXI.Sprite(PIXI.Texture.fromImage('./i/panel-bgr.png'));
+    panelBgr.width = renderer.width;
+    panel.addChild(panelBgr);
+
     var button = new UIButton({
         textures: {
-            normal: './scripts/button/button.png',
-            hovered: './scripts/button/button-hovered.png',
-            pressed: './scripts/button/button-pressed.png',
+            normal: './i/button.png',
+            hovered: './i/button-hovered.png',
+            pressed: './i/button-pressed.png',
         },
         position: {
             x: 10,
-            y: 50,
+            y: 10,
         },
+        width: 200,
+        height: 200,
         /**
          */
         onClick: function () {
@@ -53,44 +64,42 @@ define([
             alert('Tap!');
         },
     });
-    console.log('button', button);
-    stage.addChild(button.getShape());
+    panel.addChild(button.getShape());
 
-    var progressbar = new UIProgressbar({
+    var helth = new UIProgressbar({
         position: {
             x: 10,
-            y: 10,
+            y: 125,
         },
-        width: 200,
+        width: 180,
         height: 30,
-        value: 100,
+        value: 50,
     });
-    console.log('progressbar', progressbar);
-    stage.addChild(progressbar.getShape());
+    button.getShape().addChild(helth.getShape());
 
-    var lshift = 10;
-    var lspeed = 100;
-    var ltop = 99;
-    var lbottom = 1;
-    /**
-     */
-    var loop = function (dir) {
-        if (dir === undefined) {
-            dir = lshift;
-        }
+    var strength = new UIProgressbar({
+        position: {
+            x: 10,
+            y: 160,
+        },
+        width: 180,
+        height: 30,
+        value: 90,
+    });
+    button.getShape().addChild(strength.getShape());
 
-        progressbar.setValue(progressbar._value + dir);
-
-        if (progressbar._value > ltop) {
-            dir = -lshift;
-        } else if (progressbar._value < lbottom) {
-            dir = lshift;
-        }
-
-        setTimeout(function () {
-            loop(dir);
-        }, lspeed);
+    var index = new PIXI.Text('1', {
+        font: '64px normal monospaced',
+        fill: '#ffffff',
+        align: 'center',
+    });
+    index.anchor.x = 0.5;
+    index.anchor.y = 0.5;
+    index.position = {
+        x: 100,
+        y: 70,
     };
-    loop();
+    console.log(index);
+    button.getShape().addChild(index);
 
 });
