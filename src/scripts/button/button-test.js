@@ -19,7 +19,7 @@ define([
         /**
          */
         var module = function (o) {
-            var m = new UIButton(o || {});
+            var m = new UIButton(o || null);
 
             return m;
         };
@@ -28,10 +28,20 @@ define([
         var stage = new PIXI.Stage(0x66FF99);
         stage.interactive = true;
         // create a renderer instance
-        var renderer = PIXI.autoDetectRenderer(220, 220);
+        var renderer = PIXI.autoDetectRenderer(72, 74);
         console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
         // add the renderer view element to the DOM
         document.getElementById('fixtures').appendChild(renderer.view);
+
+        /**
+         */
+        window.animate = function () {
+            window.requestAnimFrame(window.animate);
+            // render the stage
+            renderer.render(stage);
+        };
+
+        window.requestAnimFrame(window.animate);
 
         beforeEach(function () {
             stage.stage.children.forEach(function (item) {
@@ -43,6 +53,12 @@ define([
             it('should initialize', function () {
                 var m = module();
                 assert.isDefined(m);
+            });
+
+            it('should be initialized without options', function () {
+                assert.doesNotThrow(function () {
+                    var button = new UIButton();
+                });
             });
 
             describe('`position` option', function () {
@@ -113,22 +129,293 @@ define([
                 describe('normal texture', function () {
                     it('should be Texture', function () {
                         var m = module();
-                        assert.instanceOf(this._textureButton, PIXI.Texture);
+                        assert.instanceOf(m._textureButton, PIXI.Texture);
                     });
                 });
 
                 describe('hovered texture', function () {
                     it('should be Texture', function () {
                         var m = module();
-                        assert.instanceOf(this._textureButton, PIXI.Texture);
+                        assert.instanceOf(m._textureButton, PIXI.Texture);
                     });
                 });
 
                 describe('pressed texture', function () {
                     it('should be Texture', function () {
                         var m = module();
-                        assert.instanceOf(this._textureButton, PIXI.Texture);
+                        assert.instanceOf(m._textureButton, PIXI.Texture);
                     });
+                });
+            });
+
+            describe('button statuses flags', function () {
+                describe('`_isHovered` flag', function () {
+                    it('should be `false` on default', function () {
+                        var m = module();
+                        assert.isFalse(m._isHovered);
+                    });
+                });
+
+                describe('`_isPressed` flag', function () {
+                    it('should be `false` on default', function () {
+                        var m = module();
+                        assert.isFalse(m._isPressed);
+                    });
+                });
+            });
+        });
+
+        /**
+         */
+        var getStr = function (m) {
+            stage.addChild(m._shape);
+            renderer.render(stage);
+            var str = renderer.view.toDataURL('image/png');
+
+            return str;
+        };
+
+        /**
+         */
+        var compareDrawing = function (o) {
+            resemble(getStr(o.instance))
+                .compareTo(o.spec)
+                .onComplete(function (data) {
+                    assert.isObject(data);
+                    assert.isTrue(data.isSameDimensions);
+                    assert.ok(data.misMatchPercentage < o.misMatchPercentage);
+                    o.done();
+                });
+        };
+
+        /**
+         */
+        var isNormal = function (m, done) {
+            compareDrawing({
+                instance: m,
+                spec: './base_1.png',
+                misMatchPercentage: 0.1,
+                done: done,
+            });
+        };
+
+        /**
+         */
+        var isHovered = function (m, done) {
+            compareDrawing({
+                instance: m,
+                spec: './base_2.png',
+                misMatchPercentage: 0.1,
+                done: done,
+            });
+        };
+
+        /**
+         */
+        var isPressed = function (m, done) {
+            compareDrawing({
+                instance: m,
+                spec: './base_3.png',
+                misMatchPercentage: 0.1,
+                done: done,
+            });
+        };
+
+        describe('_draw', function () {
+            it('should be fired on initialize', function () {
+                var m = module();
+                assert.instanceOf(m._shape, PIXI.Sprite);
+            });
+
+            it('should draw button', function (done) {
+                var m = module();
+                assert.equal(m._shape.texture, m._textureButton);
+                isNormal(m, done);
+            });
+
+            it('should enable `buttonMode`', function () {
+                var m = module();
+                assert.isTrue(m._shape.buttonMode);
+            });
+
+            it('should enable `interactive`', function () {
+                var m = module();
+                assert.isTrue(m._shape.interactive);
+            });
+        });
+
+        describe('_onOver', function () {
+            it('should change button texture', function (done) {
+                var m = module();
+                m._onOver();
+                assert.equal(m._shape.texture, m._textureButtonHovered);
+                isHovered(m, done);
+            });
+
+            it('should set `_isHovered` flag to `true`', function () {
+                var m = module();
+                m._onOver();
+                assert.isTrue(m._isHovered);
+            });
+
+            describe('disable collision if mouse pressed', function () {
+                it('should do nothing', function (done) {
+                    var m = module();
+                    m._isPressed = true;
+                    m._shape.setTexture(m._textureButtonPressed);
+                    m._onOver();
+                    isPressed(m, done);
+                });
+            });
+        });
+
+        describe('_onOut', function () {
+            it('should change button texture', function (done) {
+                var m = module();
+                m._shape.setTexture(null);
+                m._onOut();
+                assert.equal(m._shape.texture, m._textureButton);
+                isNormal(m, done);
+            });
+
+            it('should set `_isHovered` flag to `false`', function () {
+                var m = module();
+                m._isHovered = true;
+                m._onOut();
+                assert.isFalse(m._isHovered);
+            });
+
+            describe('do not change texture if mouse pressed', function () {
+                it('should do nothing', function (done) {
+                    var m = module();
+                    m._isPressed = true;
+                    m._shape.setTexture(m._textureButtonPressed);
+                    m._onOut();
+                    isPressed(m, done);
+                });
+            });
+        });
+
+        describe('_onDown', function () {
+            it('should change button texture', function (done) {
+                var m = module();
+                m._onDown();
+                assert.equal(m._shape.texture, m._textureButtonPressed);
+                isPressed(m, done);
+            });
+
+            it('should set `_isPressed` flag to `true`', function () {
+                var m = module();
+                m._onDown();
+                assert.isTrue(m._isPressed);
+            });
+        });
+
+        describe('_onUp', function () {
+            it('should change button texture', function (done) {
+                var m = module();
+                m._shape.setTexture(null);
+                m._onUp();
+                assert.equal(m._shape.texture, m._textureButton);
+                isNormal(m, done);
+            });
+
+            it('should set `_isPressed` flag to `false`', function () {
+                var m = module();
+                m._isPressed = true;
+                m._onUp();
+                assert.isFalse(m._isPressed);
+            });
+
+            describe('disable blinking if mouse pointer over button', function () {
+                it('should set hovered state', function (done) {
+                    var m = module();
+                    m._isHovered = true;
+                    m._onUp();
+                    isHovered(m, done);
+                });
+            });
+        });
+
+        describe('_bindControls', function () {
+            describe('mouse', function () {
+                it('should bind `mouseover`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.mouseover);
+                });
+
+                it('should bind `mousedown`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.mousedown);
+                });
+
+                it('should bind `mouseup`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.mouseup);
+                });
+
+                it('should bind `mouseupoutside`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.mouseupoutside);
+                });
+            });
+
+            describe('touch', function () {
+                it('should bind `touchstart`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.touchstart);
+                });
+
+                it('should bind `touchend`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.touchend);
+                });
+
+                it('should bind `touchendoutside`', function () {
+                    var m = module();
+                    assert.isFunction(m._shape.touchendoutside);
+                });
+            });
+        });
+
+        describe('callbacks', function () {
+            describe('onClick', function () {
+                it('should be `Null` if not defined', function () {
+                    var m = module();
+                    assert.isNull(m._onClickCallback);
+                });
+
+                it('should be fired on click', function () {
+                    var isFired = false;
+                    var m = module({
+                        /**
+                         */
+                        onClick: function () {
+                            isFired = true;
+                        },
+                    });
+                    m._shape.click();
+                    assert.isTrue(isFired);
+                });
+            });
+
+            describe('onTap', function () {
+                it('should be `Null` if not defined', function () {
+                    var m = module();
+                    assert.isNull(m._onTapCallback);
+                });
+
+                it('should be fired on tap', function () {
+                    var isFired = false;
+                    var m = module({
+                        /**
+                         */
+                        onTap: function () {
+                            isFired = true;
+                        },
+                    });
+                    m._shape.tap();
+                    assert.isTrue(isFired);
                 });
             });
         });

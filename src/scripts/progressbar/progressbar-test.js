@@ -44,6 +44,12 @@ define([
                 assert.isDefined(m);
             });
 
+            it('should be initialized without options', function () {
+                assert.doesNotThrow(function () {
+                    var progressbar = new UIProgressbar();
+                });
+            });
+
             describe('`value` option', function () {
                 it('should be Number', function () {
                     var m = module();

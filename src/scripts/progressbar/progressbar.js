@@ -32,7 +32,7 @@ define([
      * @param {Number} [o.height=10]
      */
     var Progressbar = function (o) {
-        _.defaults(o || {}, defaultOptions);
+        o = _.defaults(o || {}, defaultOptions);
 
         this._value = o.value;
         this._position = o.position;
@@ -111,9 +111,9 @@ define([
          */
         setValue: function (value) {
             if (value < 0) {
-                value = 0
+                value = 0;
             } else if (value > 100) {
-                value = 100
+                value = 100;
             }
             this._value = value;
             this._redraw();

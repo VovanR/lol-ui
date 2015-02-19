@@ -49,6 +49,8 @@ define([
     var lspeed = 100;
     var ltop = 99;
     var lbottom = 1;
+    /**
+     */
     var loop = function (dir) {
         if (dir === undefined) {
             dir = lshift;
