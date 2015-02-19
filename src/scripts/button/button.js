@@ -1,5 +1,10 @@
 /**
+ * Button UI module
+ *
+ * @module Button
+ * @see {@link https://github.com/VovanR/lol-ui|GitHub}
  * @author VovanR <mail@vovanr.com>
+ * @version 0.0.0
  */
 
 define([
@@ -27,8 +32,6 @@ define([
     };
 
     /**
-     * Button
-     *
      * @param {Object} [o] Options
      * @param {Object} [o.position]
      * @param {Number} [o.position.x=0]
@@ -37,6 +40,8 @@ define([
      * @param {Number} [o.height=10]
      * @param {Function} [o.onClick]
      * @param {Function} [o.onTap]
+     * @constructor
+     * @alias module:Button
      */
     var Button = function (o) {
         o = _.defaults(o || {}, defaultOptions);
@@ -56,7 +61,7 @@ define([
         this._isHovered = false;
         this._isPressed = false;
 
-        this._init();
+        this._initialize();
     };
 
     Button.prototype = {
@@ -65,8 +70,8 @@ define([
          *
          * @private
          */
-        _init: function () {
-            console.info('Button init');
+        _initialize: function () {
+            console.info('Button initialize');
 
             var textures = this._textures;
             this._textureButton = PIXI.Texture.fromImage(textures.normal);
@@ -77,6 +82,8 @@ define([
         },
 
         /**
+         * Drawing button shape
+         *
          * @private
          */
         _draw: function () {
@@ -92,6 +99,8 @@ define([
         },
 
         /**
+         * Sets hovered state
+         *
          * @private
          */
         _onOver: function () {
@@ -105,6 +114,8 @@ define([
         },
 
         /**
+         * Unsets hovered state
+         *
          * @private
          */
         _onOut: function () {
@@ -118,6 +129,8 @@ define([
         },
 
         /**
+         * Sets pressed state
+         *
          * @private
          */
         _onDown: function () {
@@ -126,6 +139,8 @@ define([
         },
 
         /**
+         * Unsets pressed state
+         *
          * @private
          */
         _onUp: function () {
@@ -139,6 +154,8 @@ define([
         },
 
         /**
+         * Bind controls
+         *
          * @private
          */
         _bindControls: function () {

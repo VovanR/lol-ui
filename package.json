@@ -17,6 +17,7 @@
     "gulp": "",
     "gulp-connect": "",
     "gulp-jscs": "",
+    "gulp-jsdoc": "^0.1.4",
     "gulp-jshint": "",
     "gulp-preprocess": "^1.2.0",
     "gulp-requirejs": "",

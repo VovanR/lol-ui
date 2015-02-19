@@ -3,6 +3,7 @@
 var gulp = require('gulp');
 var preprocess = require('gulp-preprocess');
 var connect = require('gulp-connect');
+var jsdoc = require('gulp-jsdoc');
 
 var argv = require('yargs').argv;
 var jshint = require('gulp-jshint');
@@ -27,6 +28,15 @@ gulp.task('lint', function () {
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jscs());
+});
+
+gulp.task('jsdoc', function () {
+    return gulp
+        .src([
+            './src/scripts/button/button.js',
+            './src/scripts/progressbar/progressbar.js',
+        ])
+        .pipe(jsdoc('./documentation-output'));
 });
 
 gulp.task('scripts', function () {

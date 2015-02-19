@@ -1,5 +1,10 @@
 /**
+ * Progressbar UI module
+ *
+ * @module Progressbar
+ * @see {@link https://github.com/VovanR/lol-ui|GitHub}
  * @author VovanR <mail@vovanr.com>
+ * @version 0.0.0
  */
 
 define([
@@ -9,6 +14,8 @@ define([
     _,
     PIXI
 ) {
+
+    'use strict';
 
     var defaultOptions = {
         value: 0,
@@ -21,8 +28,6 @@ define([
     };
 
     /**
-     * Progressbar
-     *
      * @param {Object} [o] Options
      * @param {Number} [o.value=0] 0..100
      * @param {Object} [o.position]
@@ -30,6 +35,8 @@ define([
      * @param {Number} [o.position.y=0]
      * @param {Number} [o.width=100]
      * @param {Number} [o.height=10]
+     * @constructor
+     * @alias module:Progressbar
      */
     var Progressbar = function (o) {
         o = _.defaults(o || {}, defaultOptions);
@@ -43,7 +50,7 @@ define([
         this._progressColors = [0x006600, 0xCAAA15, 0xFF5300];
         this._shape = null;
 
-        this._init();
+        this._initialize();
     };
 
     Progressbar.prototype = {
@@ -52,8 +59,8 @@ define([
          *
          * @private
          */
-        _init: function () {
-            console.info('Progressbar init');
+        _initialize: function () {
+            console.info('Progressbar initialize');
 
             this._draw();
         },
