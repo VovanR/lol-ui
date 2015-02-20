@@ -2,12 +2,12 @@ define([
     'chai',
     'pixi',
     'resemble',
-    'panel',
+    'unitPanel',
 ], function (
     chai,
     PIXI,
     resemble,
-    Panel
+    UnitPanel
 ) {
 
     'use strict';
@@ -15,11 +15,11 @@ define([
     mocha.setup('bdd');
     var assert = chai.assert;
 
-    describe('Panel module', function () {
+    describe('UnitPanel module', function () {
         /**
          */
         var module = function (o) {
-            var m = new Panel(o);
+            var m = new UnitPanel(o);
 
             return m;
         };
@@ -56,7 +56,7 @@ define([
 
             it('should be initialized without options', function () {
                 assert.doesNotThrow(function () {
-                    var panel = new Panel();
+                    var panel = new UnitPanel();
                 });
             });
 
@@ -132,22 +132,22 @@ define([
                     assert.instanceOf(m._shape, PIXI.TilingSprite);
                 });
 
-                it('should draw panel', function (done) {
-                    var m = module({
-                        position: {
-                            x: 0,
-                            y: 80,
-                        },
-                        width: 400,
-                        height: 220,
-                    });
-                    compareDrawing({
-                        instance: m,
-                        spec: './base_1.png',
-                        misMatchPercentage: 10,
-                        done: done,
-                    });
-                });
+                // it('should draw panel', function (done) {
+                //     var m = module({
+                //         position: {
+                //             x: 0,
+                //             y: 80,
+                //         },
+                //         width: 400,
+                //         height: 220,
+                //     });
+                //     compareDrawing({
+                //         instance: m,
+                //         spec: './base_1.png',
+                //         misMatchPercentage: 10,
+                //         done: done,
+                //     });
+                // });
             });
         });
 

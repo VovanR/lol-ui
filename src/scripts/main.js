@@ -1,13 +1,15 @@
 define([
     'pixi',
-    'uiPanel',
-    'uiButton',
-    'uiProgressbar',
+    'panel',
+    'unitPanel',
+    'button',
+    'progressbar',
 ], function (
     PIXI,
-    UIPanel,
-    UIButton,
-    UIProgressbar
+    Panel,
+    UnitPanel,
+    Button,
+    Progressbar
 ) {
 
     'use strict';
@@ -18,11 +20,14 @@ define([
     console.log('stage', stage);
 
     // create a renderer instance.
-    var renderer = PIXI.autoDetectRenderer(400, 300);
+    var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
     console.log('renderer', renderer);
 
     // add the renderer view element to the DOM
     document.body.appendChild(renderer.view);
+    renderer.view.style.position = 'absolute';
+    renderer.view.style.top = '0px';
+    renderer.view.style.left = '0px';
 
     /**
      */
@@ -31,21 +36,23 @@ define([
         // render the stage
         renderer.render(stage);
     };
-
     window.requestAnimFrame(window.animate);
 
-    var panel = new UIPanel({
-        position: {
-            x: 0,
-            y: renderer.height - 220,
-        },
-        width: renderer.width,
+    var panel = new Panel({
+        width: 430,
         height: 220,
         background: './i/panel-bgr.png',
     });
     stage.addChild(panel.getShape());
 
-    var button = new UIButton({
+    var unitPanel = new UnitPanel({
+        width: 430,
+        height: 220,
+        background: './i/unit-panel-bgr.png',
+    });
+    panel.addChild(unitPanel.getShape());
+
+    var button = new Button({
         textures: {
             normal: './i/button.png',
             hovered: './i/button-hovered.png',
@@ -68,9 +75,9 @@ define([
             alert('Tap!');
         },
     });
-    panel.getShape().addChild(button.getShape());
+    unitPanel.addChild(button.getShape());
 
-    var helth = new UIProgressbar({
+    var helth = new Progressbar({
         position: {
             x: 10,
             y: 125,
@@ -81,7 +88,7 @@ define([
     });
     button.getShape().addChild(helth.getShape());
 
-    var strength = new UIProgressbar({
+    var strength = new Progressbar({
         position: {
             x: 10,
             y: 160,
@@ -104,5 +111,12 @@ define([
         y: 70,
     };
     button.getShape().addChild(index);
+
+    var resize = function () {
+        renderer.resize(window.innerWidth, window.innerHeight);
+    };
+
+    window.addEventListener('orientationchange', resize, false);
+    window.addEventListener('resize', resize, false);
 
 });

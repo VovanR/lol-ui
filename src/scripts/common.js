@@ -1,12 +1,17 @@
 requirejs.config({
     paths: {
         lodash: '../../bower_components/lodash/lodash',
+        pixi: '../../bower_components/pixi.js/bin/pixi',
+
+        // For testing
         chai: '../../bower_components/chai/chai',
         resemble: '../../bower_components/resemblejs/resemble',
-        pixi: '../../bower_components/pixi.js/bin/pixi',
-        uiButton: '../../scripts/button/button',
-        uiProgressbar: '../../scripts/progressbar/progressbar',
-        uiPanel: '../../scripts/panel/panel',
+
+        // UI Components
+        button: '../../scripts/button/button',
+        progressbar: '../../scripts/progressbar/progressbar',
+        panel: '../../scripts/panel/panel',
+        unitPanel: '../../scripts/unit-panel/unit-panel',
     },
     shim: {
         resemble: {

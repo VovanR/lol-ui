@@ -2,12 +2,12 @@ define([
     'chai',
     'pixi',
     'resemble',
-    'uiButton',
+    'button',
 ], function (
     chai,
     PIXI,
     resemble,
-    UIButton
+    Button
 ) {
 
     'use strict';
@@ -15,11 +15,11 @@ define([
     mocha.setup('bdd');
     var assert = chai.assert;
 
-    describe('UIButton module', function () {
+    describe('Button module', function () {
         /**
          */
         var module = function (o) {
-            var m = new UIButton(o || null);
+            var m = new Button(o || null);
 
             return m;
         };
@@ -57,7 +57,7 @@ define([
 
             it('should be initialized without options', function () {
                 assert.doesNotThrow(function () {
-                    var button = new UIButton();
+                    var button = new Button();
                 });
             });
 

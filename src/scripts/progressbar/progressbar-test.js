@@ -2,12 +2,12 @@ define([
     'chai',
     'pixi',
     'resemble',
-    'uiProgressbar',
+    'progressbar',
 ], function (
     chai,
     PIXI,
     resemble,
-    UIProgressbar
+    Progressbar
 ) {
 
     'use strict';
@@ -15,11 +15,11 @@ define([
     mocha.setup('bdd');
     var assert = chai.assert;
 
-    describe('UIProgressbar module', function () {
+    describe('Progressbar module', function () {
         /**
          */
         var module = function (o) {
-            var m = new UIProgressbar(o || {});
+            var m = new Progressbar(o || {});
 
             return m;
         };
@@ -46,7 +46,7 @@ define([
 
             it('should be initialized without options', function () {
                 assert.doesNotThrow(function () {
-                    var progressbar = new UIProgressbar();
+                    var progressbar = new Progressbar();
                 });
             });
 
