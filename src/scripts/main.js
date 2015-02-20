@@ -1,9 +1,11 @@
 define([
     'pixi',
+    'uiPanel',
     'uiButton',
     'uiProgressbar',
 ], function (
     PIXI,
+    UIPanel,
     UIButton,
     UIProgressbar
 ) {
@@ -32,14 +34,16 @@ define([
 
     window.requestAnimFrame(window.animate);
 
-    var panel = new PIXI.DisplayObjectContainer();
-    panel.position.x = 0;
-    panel.position.y = renderer.height - 220;
-    stage.addChild(panel);
-
-    var panelBgr = new PIXI.Sprite(PIXI.Texture.fromImage('./i/panel-bgr.png'));
-    panelBgr.width = renderer.width;
-    panel.addChild(panelBgr);
+    var panel = new UIPanel({
+        position: {
+            x: 0,
+            y: renderer.height - 220,
+        },
+        width: renderer.width,
+        height: 220,
+        background: './i/panel-bgr.png',
+    });
+    stage.addChild(panel.getShape());
 
     var button = new UIButton({
         textures: {
@@ -64,7 +68,7 @@ define([
             alert('Tap!');
         },
     });
-    panel.addChild(button.getShape());
+    panel.getShape().addChild(button.getShape());
 
     var helth = new UIProgressbar({
         position: {
@@ -99,7 +103,6 @@ define([
         x: 100,
         y: 70,
     };
-    console.log(index);
     button.getShape().addChild(index);
 
 });

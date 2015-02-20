@@ -6,6 +6,7 @@ requirejs.config({
         pixi: '../../bower_components/pixi.js/bin/pixi',
         uiButton: '../../scripts/button/button',
         uiProgressbar: '../../scripts/progressbar/progressbar',
+        uiPanel: '../../scripts/panel/panel',
     },
     shim: {
         resemble: {
