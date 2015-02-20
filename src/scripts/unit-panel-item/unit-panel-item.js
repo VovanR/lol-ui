@@ -22,18 +22,12 @@ define([
     'use strict';
 
     var defaultOptions = {
-        width: 0,
-        height: 0,
-        background: './unit-panel-item-bgr.png',
         helth: 0,
         strength: 0,
     };
 
     /**
      * @param {Object} [o] Options
-     * @param {Number} [o.width=0] width of item block
-     * @param {Number} [o.height=0] height of item block
-     * @param {String} [o.background='./unit-panel-item-bgr.png'] background of item block
      * @param {Number} [o.helth=0] unit helth value
      * @param {Number} [o.strength=0] unit strength value
      * @constructor
@@ -42,9 +36,6 @@ define([
     var UnitPanelItem = function (o) {
         o = _.defaults(o || {}, defaultOptions);
 
-        this._width = o.width;
-        this._height = o.height;
-        this._background = o.background;
         this._helth = o.helth;
         this._strength = o.strength;
 
@@ -116,8 +107,8 @@ define([
                 value: this._strength,
             });
 
-            var index = new PIXI.Text('1', {
-                font: '64px normal monospaced',
+            var index = new PIXI.Text(String(this._index), {
+                font: '64px normal monospace',
                 fill: '#ffffff',
                 align: 'center',
             });

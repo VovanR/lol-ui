@@ -59,11 +59,6 @@ define([
                     var instance = new UnitPanelItem();
                 });
             });
-
-            it('should be `UnitPanelItem` constructor', function () {
-                var m = module();
-                assert.instanceOf(m, UnitPanelItem);
-            });
         });
 
         /**
@@ -94,17 +89,13 @@ define([
             describe('_draw', function () {
                 it('should be fired on initialize', function () {
                     var m = module();
-                    assert.instanceOf(m._shape, PIXI.TilingSprite);
+                    assert.instanceOf(m._shape, PIXI.Sprite);
                 });
 
                 it('should draw panel item', function (done) {
                     var m = module({
-                        position: {
-                            x: 0,
-                            y: 80,
-                        },
-                        width: 400,
-                        height: 220,
+                        helth: 0,
+                        strength: 0,
                     });
                     compareDrawing({
                         instance: m,
