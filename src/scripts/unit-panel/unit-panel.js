@@ -56,6 +56,20 @@ define([
         this._draw();
     };
 
+    /**
+     * Added child to panel content
+     *
+     * @param {PIXI.Graphics} child
+     */
+    UnitPanel.prototype.addChild = function (child) {
+        var childWidth = child.width;
+        var childX = 0;
+        var childLength = this._content.children.length;
+        childX = childLength * (childWidth + child.x) + child.x;
+        child.x = childX;
+        this._content.addChild(child);
+    };
+
     return UnitPanel;
 
 });

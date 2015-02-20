@@ -2,14 +2,12 @@ define([
     'pixi',
     'controlPanel',
     'unitPanel',
-    'button',
-    'progressbar',
+    'unitPanelItem',
 ], function (
     PIXI,
     ControlPanel,
     UnitPanel,
-    Button,
-    Progressbar
+    UnitPanelItem
 ) {
 
     'use strict';
@@ -52,66 +50,20 @@ define([
     });
     controlPanel.addChild(unitPanel.getShape());
 
-    var button = new Button({
-        textures: {
-            normal: './i/button.png',
-            hovered: './i/button-hovered.png',
-            pressed: './i/button-pressed.png',
-        },
-        position: {
-            x: 10,
-            y: 10,
-        },
-        width: 200,
-        height: 200,
-        /**
-         */
-        onClick: function () {
-            alert('Click!');
-        },
-        /**
-         */
-        onTap: function () {
-            alert('Tap!');
-        },
+    var unitPanelItem = new UnitPanelItem({
+        helth: 100,
+        strength: 30,
     });
-    unitPanel.addChild(button.getShape());
+    unitPanel.addChild(unitPanelItem.getShape());
 
-    var helth = new Progressbar({
-        position: {
-            x: 10,
-            y: 125,
-        },
-        width: 180,
-        height: 30,
-        value: 50,
+    var unitPanelItem2 = new UnitPanelItem({
+        helth: 60,
+        strength: 90,
     });
-    button.getShape().addChild(helth.getShape());
+    unitPanel.addChild(unitPanelItem2.getShape());
 
-    var strength = new Progressbar({
-        position: {
-            x: 10,
-            y: 160,
-        },
-        width: 180,
-        height: 30,
-        value: 90,
-    });
-    button.getShape().addChild(strength.getShape());
-
-    var index = new PIXI.Text('1', {
-        font: '64px normal monospaced',
-        fill: '#ffffff',
-        align: 'center',
-    });
-    index.anchor.x = 0.5;
-    index.anchor.y = 0.5;
-    index.position = {
-        x: 100,
-        y: 70,
-    };
-    button.getShape().addChild(index);
-
+    /**
+     */
     var resize = function () {
         renderer.resize(window.innerWidth, window.innerHeight);
     };

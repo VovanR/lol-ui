@@ -13,6 +13,7 @@ requirejs.config({
         panel: '../../scripts/panel/panel',
         controlPanel: '../../scripts/control-panel/control-panel',
         unitPanel: '../../scripts/unit-panel/unit-panel',
+        unitPanelItem: '../../scripts/unit-panel-item/unit-panel-item',
     },
     shim: {
         resemble: {
