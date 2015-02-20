@@ -1,12 +1,12 @@
 define([
     'pixi',
-    'panel',
+    'controlPanel',
     'unitPanel',
     'button',
     'progressbar',
 ], function (
     PIXI,
-    Panel,
+    ControlPanel,
     UnitPanel,
     Button,
     Progressbar
@@ -38,19 +38,19 @@ define([
     };
     window.requestAnimFrame(window.animate);
 
-    var panel = new Panel({
+    var controlPanel = new ControlPanel({
         width: 430,
         height: 220,
         background: './i/panel-bgr.png',
     });
-    stage.addChild(panel.getShape());
+    stage.addChild(controlPanel.getShape());
 
     var unitPanel = new UnitPanel({
         width: 430,
         height: 220,
         background: './i/unit-panel-bgr.png',
     });
-    panel.addChild(unitPanel.getShape());
+    controlPanel.addChild(unitPanel.getShape());
 
     var button = new Button({
         textures: {

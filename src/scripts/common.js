@@ -11,6 +11,7 @@ requirejs.config({
         button: '../../scripts/button/button',
         progressbar: '../../scripts/progressbar/progressbar',
         panel: '../../scripts/panel/panel',
+        controlPanel: '../../scripts/control-panel/control-panel',
         unitPanel: '../../scripts/unit-panel/unit-panel',
     },
     shim: {

@@ -18,15 +18,22 @@ define([
     'use strict';
 
     var defaultOptions = {
-        width: 100,
-        height: 10,
+        position: {
+            x: 0,
+            y: 0,
+        },
+        width: 0,
+        height: 0,
         background: './panel-bgr.png',
     };
 
     /**
      * @param {Object} [o] Options
-     * @param {Number} [o.width=100] width of panel content
-     * @param {Number} [o.height=10] height of panel content
+     * @param {Object} [o.position]
+     * @param {Number} [o.position.x=0]
+     * @param {Number} [o.position.y=0]
+     * @param {Number} [o.width=0] width of panel
+     * @param {Number} [o.height=0] height of panel
      * @param {String} [o.background='./panel-bgr.png'] background of panel
      * @constructor
      * @alias module:Panel
@@ -34,40 +41,16 @@ define([
     var Panel = function (o) {
         o = _.defaults(o || {}, defaultOptions);
 
+        this._position = o.position;
         this._width = o.width;
         this._height = o.height;
         this._background = o.background;
 
         this._shape = null;
         this._content = null;
-
-        this._initialize();
     };
 
     Panel.prototype = {
-        /**
-         * Initialize
-         *
-         * @private
-         */
-        _initialize: function () {
-            console.info('Panel initialize');
-
-            this._draw();
-
-            this._bindControls();
-        },
-
-        /**
-         * Bind controls
-         *
-         * @private
-         */
-        _bindControls: function () {
-            window.addEventListener('orientationchange', this._resize.bind(this), false);
-            window.addEventListener('resize', this._resize.bind(this), false);
-        },
-
         /**
          * Draw panel shape and fire resize
          *
@@ -75,26 +58,15 @@ define([
          */
         _draw: function () {
             var texture = PIXI.Texture.fromImage(this._background);
-            var shape = new PIXI.TilingSprite(texture, window.innerWidth, this._height);
+            var shape = new PIXI.TilingSprite(texture, this._width, this._height);
+            var position = this._position;
+            shape.position.set(position.x, position.y);
             var content = new PIXI.Graphics();
 
             shape.addChild(content);
 
             this._shape = shape;
             this._content = content;
-
-            this._resize();
-        },
-
-        /**
-         * @private
-         */
-        _resize: function () {
-            var width = window.innerWidth;
-
-            this._shape.width = width;
-            this._shape.y = window.innerHeight - this._height;
-            this._content.x = (width - this._width) / 2;
         },
 
         /**
@@ -107,6 +79,8 @@ define([
         },
 
         /**
+         * Added child to panel content
+         *
          * @param {PIXI.Graphics} child
          */
         addChild: function (child) {

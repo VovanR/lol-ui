@@ -60,6 +60,42 @@ define([
                 });
             });
 
+            describe('`position` option', function () {
+                it('should be Object', function () {
+                    var m = module();
+                    assert.isObject(m._position);
+                });
+
+                it('should init values', function () {
+                    var m = module({
+                        position: {
+                            x: 2,
+                            y: 3,
+                        },
+                    });
+                    assert.equal(m._position.x, 2);
+                    assert.equal(m._position.y, 3);
+                });
+
+                it('should have default values', function () {
+                    var m = module();
+                    assert.equal(m._position.x, 0);
+                    assert.equal(m._position.y, 0);
+                });
+
+                it('should set panel shape position', function () {
+                    var m = module({
+                        position: {
+                            x: 2,
+                            y: 3,
+                        },
+                    });
+                    m._draw();
+                    assert.equal(m._shape.x, 2);
+                    assert.equal(m._shape.y, 3);
+                });
+            });
+
             describe('size options', function () {
                 describe('`width` option', function () {
                     it('should be Number', function () {
@@ -76,7 +112,7 @@ define([
 
                     it('should have default values', function () {
                         var m = module();
-                        assert.equal(m._width, 100);
+                        assert.equal(m._width, 0);
                     });
                 });
 
@@ -95,7 +131,7 @@ define([
 
                     it('should have default values', function () {
                         var m = module();
-                        assert.equal(m._height, 10);
+                        assert.equal(m._height, 0);
                     });
                 });
             });
@@ -127,9 +163,10 @@ define([
 
         describe('drawing box', function () {
             describe('_draw', function () {
-                it('should be fired on initialize', function () {
+                it('should not be fired on initialize', function () {
                     var m = module();
-                    assert.instanceOf(m._shape, PIXI.TilingSprite);
+                    assert.isNull(m._shape);
+                    assert.isNull(m._content);
                 });
 
                 it('should draw panel', function (done) {
@@ -141,6 +178,7 @@ define([
                         width: 400,
                         height: 220,
                     });
+                    m._draw();
                     compareDrawing({
                         instance: m,
                         spec: './base_1.png',
@@ -154,7 +192,18 @@ define([
         describe('#getShape', function () {
             it('should return panel graphics', function () {
                 var m = module();
+                m._draw();
                 assert.instanceOf(m.getShape(), PIXI.TilingSprite);
+            });
+        });
+
+        describe('#addChild', function () {
+            it('should add child to panel content', function () {
+                var m = module();
+                var child = new PIXI.Rectangle(0, 0, 10, 10);
+                m._draw();
+                m.addChild(child);
+                assert.equal(m._content.children[0], child);
             });
         });
     });

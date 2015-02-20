@@ -2,12 +2,12 @@ define([
     'chai',
     'pixi',
     'resemble',
-    'unitPanel',
+    'controlPanel',
 ], function (
     chai,
     PIXI,
     resemble,
-    UnitPanel
+    ControlPanel
 ) {
 
     'use strict';
@@ -15,11 +15,11 @@ define([
     mocha.setup('bdd');
     var assert = chai.assert;
 
-    describe('UnitPanel module', function () {
+    describe('ControlPanel module', function () {
         /**
          */
         var module = function (o) {
-            var m = new UnitPanel(o);
+            var m = new ControlPanel(o);
 
             return m;
         };
@@ -56,13 +56,13 @@ define([
 
             it('should be initialized without options', function () {
                 assert.doesNotThrow(function () {
-                    var panel = new UnitPanel();
+                    var panel = new ControlPanel();
                 });
             });
 
-            it('should be `UnitPanel` constructor', function () {
+            it('should be `ControlPanel` constructor', function () {
                 var m = module();
-                assert.instanceOf(m, UnitPanel);
+                assert.instanceOf(m, ControlPanel);
             });
         });
 

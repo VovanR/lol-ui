@@ -36,6 +36,7 @@ gulp.task('jsdoc', function () {
             './src/scripts/button/button.js',
             './src/scripts/progressbar/progressbar.js',
             './src/scripts/panel/panel.js',
+            './src/scripts/control-panel/control-panel.js',
             './src/scripts/unit-panel/unit-panel.js',
         ])
         .pipe(jsdoc('./documentation-output'));
