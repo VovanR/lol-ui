@@ -7,6 +7,8 @@ Experimental UI on [pixi.js](https://github.com/GoodBoyDigital/pixi.js/)
 - Button
 - Progressbar
 - Panel
+- ControlPanel
+- UnitPanel
 
 ## Initialization
 ```
@@ -34,5 +36,6 @@ open ./dist/index.html
 ```
 
 ## Specifications
+![Control Panel](specs/control_panel.png)
 ![Unit Panel](specs/unit_panel.png)
 ![Progressbar](specs/progressbar.png)
