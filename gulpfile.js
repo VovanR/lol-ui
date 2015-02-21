@@ -35,6 +35,7 @@ gulp.task('jsdoc', function () {
         .src([
             './src/scripts/button/button.js',
             './src/scripts/progressbar/progressbar.js',
+            './src/scripts/indicator/indicator.js',
             './src/scripts/panel/panel.js',
             './src/scripts/control-panel/control-panel.js',
             './src/scripts/unit-panel/unit-panel.js',
@@ -59,8 +60,13 @@ gulp.task('build-scripts', function () {
         paths: {
             lodash: '../bower_components/lodash/lodash',
             pixi: '../bower_components/pixi.js/bin/pixi',
-            uiButton: './button/button',
-            uiProgressbar: './progressbar/progressbar',
+            button: './button/button',
+            progressbar: './progressbar/progressbar',
+            indicator: './indicator/indicator',
+            panel: './panel/panel',
+            controlPanel: './control-panel/control-panel',
+            unitPanel: './unit-panel/unit-panel',
+            unitPanelItem: './unit-panel-item/unit-panel-item',
         },
         shim: {
         },

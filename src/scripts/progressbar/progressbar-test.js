@@ -199,7 +199,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_1.png',
+                        spec: './test_1.png',
                         misMatchPercentage: 0.1,
                         done: done,
                     });
@@ -215,7 +215,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_2.png',
+                        spec: './test_2.png',
                         misMatchPercentage: 0.1,
                         done: done,
                     });
@@ -231,7 +231,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_3.png',
+                        spec: './test_3.png',
                         misMatchPercentage: 0.1,
                         done: done,
                     });
@@ -247,7 +247,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_4.png',
+                        spec: './test_4.png',
                         misMatchPercentage: 0.1,
                         done: done,
                     });
@@ -265,7 +265,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_5.png',
+                        spec: './test_5.png',
                         misMatchPercentage: 0.3,
                         done: done,
                     });
@@ -285,7 +285,7 @@ define([
                 m._redraw();
                 compareDrawing({
                     instance: m,
-                    spec: './base_3.png',
+                    spec: './test_3.png',
                     misMatchPercentage: 0.1,
                     done: done,
                 });

@@ -119,7 +119,7 @@ define([
 
                     it('should have default values', function () {
                         var m = module();
-                        assert.equal(m._width, 100);
+                        assert.equal(m._width, 0);
                     });
                 });
 
@@ -138,7 +138,7 @@ define([
 
                     it('should have default values', function () {
                         var m = module();
-                        assert.equal(m._height, 100);
+                        assert.equal(m._height, 0);
                     });
                 });
             });
@@ -211,7 +211,7 @@ define([
         var isNormal = function (m, done) {
             compareDrawing({
                 instance: m,
-                spec: './base_1.png',
+                spec: './test_1.png',
                 misMatchPercentage: 0.1,
                 done: done,
             });
@@ -222,7 +222,7 @@ define([
         var isHovered = function (m, done) {
             compareDrawing({
                 instance: m,
-                spec: './base_2.png',
+                spec: './test_2.png',
                 misMatchPercentage: 0.1,
                 done: done,
             });
@@ -233,7 +233,7 @@ define([
         var isPressed = function (m, done) {
             compareDrawing({
                 instance: m,
-                spec: './base_3.png',
+                spec: './test_3.png',
                 misMatchPercentage: 0.1,
                 done: done,
             });
@@ -290,7 +290,7 @@ define([
         describe('_onOut', function () {
             it('should change button texture', function (done) {
                 var m = module();
-                m._shape.setTexture(null);
+                m._shape.setTexture('');
                 m._onOut();
                 assert.equal(m._shape.texture, m._textureButton);
                 isNormal(m, done);
@@ -332,7 +332,7 @@ define([
         describe('_onUp', function () {
             it('should change button texture', function (done) {
                 var m = module();
-                m._shape.setTexture(null);
+                m._shape.setTexture('');
                 m._onUp();
                 assert.equal(m._shape.texture, m._textureButton);
                 isNormal(m, done);

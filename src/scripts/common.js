@@ -10,6 +10,7 @@ requirejs.config({
         // UI Components
         button: '../../scripts/button/button',
         progressbar: '../../scripts/progressbar/progressbar',
+        indicator: '../../scripts/indicator/indicator',
         panel: '../../scripts/panel/panel',
         controlPanel: '../../scripts/control-panel/control-panel',
         unitPanel: '../../scripts/unit-panel/unit-panel',

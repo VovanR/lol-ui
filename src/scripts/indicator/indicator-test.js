@@ -2,12 +2,12 @@ define([
     'chai',
     'pixi',
     'resemble',
-    'panel',
+    'indicator',
 ], function (
     chai,
     PIXI,
     resemble,
-    Panel
+    Indicator
 ) {
 
     'use strict';
@@ -15,19 +15,20 @@ define([
     mocha.setup('bdd');
     var assert = chai.assert;
 
-    describe('Panel module', function () {
+    describe('Indicator module', function () {
         /**
          */
         var module = function (o) {
-            var m = new Panel(o);
+            var m = new Indicator(o || null);
 
             return m;
         };
 
         // create an new instance of a pixi stage
         var stage = new PIXI.Stage(0x66FF99);
+        stage.interactive = true;
         // create a renderer instance
-        var renderer = PIXI.autoDetectRenderer(400, 300);
+        var renderer = PIXI.autoDetectRenderer(72, 74);
         console.log('Is PIXI.WebGLRenderer', (renderer instanceof PIXI.WebGLRenderer));
         // add the renderer view element to the DOM
         document.getElementById('fixtures').appendChild(renderer.view);
@@ -56,7 +57,14 @@ define([
 
             it('should be initialized without options', function () {
                 assert.doesNotThrow(function () {
-                    var panel = new Panel();
+                    var indicator = new Indicator();
+                });
+            });
+
+            describe('`textures` option', function () {
+                it('should be `Object`', function () {
+                    var m = module();
+                    assert.isObject(m._textures);
                 });
             });
 
@@ -83,14 +91,13 @@ define([
                     assert.equal(m._position.y, 0);
                 });
 
-                it('should set panel shape position', function () {
+                it('should set indicator shape position', function () {
                     var m = module({
                         position: {
                             x: 2,
                             y: 3,
                         },
                     });
-                    m._draw();
                     assert.equal(m._shape.x, 2);
                     assert.equal(m._shape.y, 3);
                 });
@@ -135,6 +142,31 @@ define([
                     });
                 });
             });
+
+            describe('indicator textures', function () {
+                describe('disabled texture', function () {
+                    it('should be Texture', function () {
+                        var m = module();
+                        assert.instanceOf(m._textureDisabled, PIXI.Texture);
+                    });
+                });
+
+                describe('enabled texture', function () {
+                    it('should be Texture', function () {
+                        var m = module();
+                        assert.instanceOf(m._textureEnabled, PIXI.Texture);
+                    });
+                });
+            });
+
+            describe('indicator statuses flags', function () {
+                describe('`_isEnabled` flag', function () {
+                    it('should be `false` on default', function () {
+                        var m = module();
+                        assert.isFalse(m._isEnabled);
+                    });
+                });
+            });
         });
 
         /**
@@ -155,55 +187,81 @@ define([
                 .onComplete(function (data) {
                     assert.isObject(data);
                     assert.isTrue(data.isSameDimensions);
-                    console.log(data.misMatchPercentage);
                     assert.ok(data.misMatchPercentage < o.misMatchPercentage);
                     o.done();
                 });
         };
 
-        describe('drawing box', function () {
-            describe('_draw', function () {
-                it('should not be fired on initialize', function () {
-                    var m = module();
-                    assert.isNull(m._shape);
-                    assert.isNull(m._content);
-                });
+        /**
+         */
+        var isDisabled = function (m, done) {
+            compareDrawing({
+                instance: m,
+                spec: './test_1.png',
+                misMatchPercentage: 0.1,
+                done: done,
+            });
+        };
 
-                it('should draw panel', function (done) {
-                    var m = module({
-                        position: {
-                            x: 0,
-                            y: 80,
-                        },
-                        width: 400,
-                        height: 220,
-                    });
-                    m._draw();
-                    compareDrawing({
-                        instance: m,
-                        spec: './test_1.png',
-                        misMatchPercentage: 10,
-                        done: done,
-                    });
-                });
+        /**
+         */
+        var isEnabled = function (m, done) {
+            compareDrawing({
+                instance: m,
+                spec: './test_2.png',
+                misMatchPercentage: 0.1,
+                done: done,
+            });
+        };
+
+        describe('_draw', function () {
+            it('should be fired on initialize', function () {
+                var m = module();
+                assert.instanceOf(m._shape, PIXI.Sprite);
+            });
+
+            it('should draw indicator', function (done) {
+                var m = module();
+                assert.equal(m._shape.texture, m._textureDisabled);
+                isDisabled(m, done);
             });
         });
 
         describe('#getShape', function () {
-            it('should return panel graphics', function () {
+            it('should return indicator shape', function () {
                 var m = module();
-                m._draw();
-                assert.instanceOf(m.getShape(), PIXI.TilingSprite);
+                assert.instanceOf(m.getShape(), PIXI.Sprite);
             });
         });
 
-        describe('#addChild', function () {
-            it('should add child to panel content', function () {
+        describe('#enable', function () {
+            it('should set `_isEnabled` flag to `true`', function () {
                 var m = module();
-                var child = new PIXI.Rectangle(0, 0, 10, 10);
-                m._draw();
-                m.addChild(child);
-                assert.equal(m._content.children[0], child);
+                m._isEnabled = false;
+                m.enable();
+                assert.isTrue(m._isEnabled);
+            });
+
+            it('should set enablet texture', function (done) {
+                var m = module();
+                m.enable();
+                isEnabled(m, done);
+            });
+        });
+
+        describe('#disable', function () {
+            it('should set `_isEnabled` flag to `false`', function () {
+                var m = module();
+                m._isEnabled = true;
+                m.disable();
+                assert.isFalse(m._isEnabled);
+            });
+
+            it('should set disabled texture', function (done) {
+                var m = module();
+                m._shape.setTexture('');
+                m.disable();
+                isDisabled(m, done);
             });
         });
     });

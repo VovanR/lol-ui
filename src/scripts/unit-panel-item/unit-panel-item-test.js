@@ -99,7 +99,7 @@ define([
                     });
                     compareDrawing({
                         instance: m,
-                        spec: './base_1.png',
+                        spec: './test_1.png',
                         misMatchPercentage: 10,
                         done: done,
                     });

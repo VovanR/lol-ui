@@ -25,14 +25,18 @@ define([
             x: 0,
             y: 0,
         },
-        width: 100,
-        height: 100,
+        width: 0,
+        height: 0,
         onClick: null,
         onTap: null,
     };
 
     /**
      * @param {Object} [o] Options
+     * @param {Object} [o.textures]
+     * @param {Object} [o.textures.normal='button.png']
+     * @param {Object} [o.textures.hovered='button-hovered.png']
+     * @param {Object} [o.textures.pressed='button-pressed.png']
      * @param {Object} [o.position]
      * @param {Number} [o.position.x=0]
      * @param {Number} [o.position.y=0]
