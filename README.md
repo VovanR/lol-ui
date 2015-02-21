@@ -6,6 +6,7 @@ Experimental UI on [pixi.js](https://github.com/GoodBoyDigital/pixi.js/)
 ## Components
 - Button
 - Progressbar
+- Indicator
 - Panel
 - ControlPanel
 - UnitPanel
