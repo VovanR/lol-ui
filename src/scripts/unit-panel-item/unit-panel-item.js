@@ -24,10 +24,10 @@ define([
     /**
      * @param {Object} o Options
      * @param {String} o.id unit id
-     * @param {Number} o.index
+     * @param {Number} o.index unit panel item index
      * @param {Number} o.helth unit helth value
      * @param {Number} o.strength unit strength value
-     * @param {Object} o.position
+     * @param {Object} o.position unit panel item position
      * @param {Number} o.position.x
      * @param {Number} o.position.y
      * @constructor
