@@ -1,9 +1,11 @@
 define([
+    'lodash',
     'chai',
     'pixi',
     'resemble',
     'unitPanelItem',
 ], function (
+    _,
     chai,
     PIXI,
     resemble,
@@ -19,7 +21,16 @@ define([
         /**
          */
         var module = function (o) {
-            var m = new UnitPanelItem(o);
+            var m = new UnitPanelItem(_.defaults(o || {}, {
+                id: '01',
+                index: 1,
+                helth: 0,
+                strength: 0,
+                position: {
+                    x: 0,
+                    y: 0,
+                },
+            }));
 
             return m;
         };
@@ -54,8 +65,8 @@ define([
                 assert.isDefined(m);
             });
 
-            it('should be initialized without options', function () {
-                assert.doesNotThrow(function () {
+            it('should throw if initialized without options', function () {
+                assert.throw(function () {
                     var instance = new UnitPanelItem();
                 });
             });
@@ -104,6 +115,61 @@ define([
                         done: done,
                     });
                 });
+            });
+
+            describe('_redraw', function () {
+                it('should redraw block', function () {
+                    var m = module();
+                    assert.isTrue(false);
+                });
+            });
+        });
+
+        describe('#setIndex', function () {
+            it('should sets new index', function () {
+                var m = module({
+                    index: 5,
+                });
+                assert.equal(m._index, 5);
+                m.setIndex(6);
+                assert.equal(m._index, 6);
+            });
+
+            it('should fire block redrawing', function () {
+                var m = module();
+                assert.isTrue(false);
+            });
+        });
+
+        describe('#setHelth', function () {
+            it('should sets new helth value', function () {
+                var m = module({
+                    helth: 10,
+                });
+                assert.equal(m._helth, 10);
+                m.setHelth(90);
+                assert.equal(m._helth, 90);
+            });
+
+            it('should fire block redrawing', function () {
+                var m = module();
+                assert.isTrue(false);
+            });
+        });
+
+        describe('#setStrength', function () {
+            it('should sets new strength value', function () {
+                var m = module({
+                    strength: 10,
+                });
+                assert.equal(m._strength, 10);
+                m.setStrength(90);
+                assert.equal(m._strength, 90);
+            });
+
+            it('should fire block redrawing', function () {
+                var m = module();
+                assert.isTrue(false);
             });
         });
     });

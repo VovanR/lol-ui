@@ -13,10 +13,12 @@ define([
     'lodash',
     'pixi',
     'panel',
+    'unitPanelItem',
 ], function (
     _,
     PIXI,
-    Panel
+    Panel,
+    UnitPanelItem
 ) {
 
     'use strict';
@@ -37,6 +39,10 @@ define([
      */
     var UnitPanel = function (o) {
         Panel.call(this, o || {});
+
+        this._itemMargin = 10;
+        this._itemWidth = 200;
+        this._childrens = [];
 
         this._initialize();
     };
@@ -60,14 +66,60 @@ define([
      * Added child to panel content
      *
      * @param {PIXI.Graphics} child
+     * @private
      */
-    UnitPanel.prototype.addChild = function (child) {
-        var childWidth = child.width;
-        var childX = 0;
-        var childLength = this._content.children.length;
-        childX = childLength * (childWidth + child.x) + child.x;
-        child.x = childX;
+    UnitPanel.prototype._addChild = function (child) {
         this._content.addChild(child);
+    };
+
+    /**
+     * Returns next item index number
+     *
+     * @return {Number} nextIndex
+     * @private
+     */
+    UnitPanel.prototype._getNextIndex = function () {
+        var nextIndex = this._childrens.length + 1;
+
+        return nextIndex;
+    };
+
+    /**
+     * Returns next item position
+     *
+     * @return {Object} nextPosition { x: {Number}, y: {Number} }
+     * @private
+     */
+    UnitPanel.prototype._getNextPosition = function () {
+        var margin = this._itemMargin;
+        var x = (margin + this._itemWidth) * this._childrens.length + margin;
+        var nextPosition = {
+            x: x,
+            y: margin,
+        };
+
+        return nextPosition;
+    };
+
+    /**
+     * Adds unit panel item
+     *
+     * @param {Object} o Options
+     * @param {String} o.id
+     * @param {Number} o.helth
+     * @param {Number} o.strength
+     */
+    UnitPanel.prototype.addUnit = function (o) {
+        var item = new UnitPanelItem({
+            id: o.id,
+            index: this._getNextIndex(),
+            position: this._getNextPosition(),
+            helth: o.helth,
+            strength: o.strength,
+        });
+
+        this._childrens.push(item);
+        this._addChild(item.getShape());
     };
 
     return UnitPanel;

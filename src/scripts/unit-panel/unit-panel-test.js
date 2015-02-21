@@ -115,6 +115,44 @@ define([
                 });
             });
         });
+
+        describe('_addChild', function () {
+            it('should add child to collection', function () {
+                var m = module();
+                assert.isTrue(false);
+            });
+        });
+
+        describe('_getNextIndex', function () {
+            it('should return next index number', function () {
+                var m = module();
+                assert.equal(m._getNextIndex(), 1);
+                m._childrens.push(0);
+                assert.equal(m._getNextIndex(), 2);
+            });
+        });
+
+        describe('_getNextPosition', function () {
+            it('should return next unit panel item position', function () {
+                var m = module();
+                var margin = m._itemMargin;
+                var width = m._itemWidth;
+                assert.deepEqual(m._getNextPosition(), {
+                    x: margin,
+                    y: margin,
+                });
+                m._childrens.push(0);
+                assert.deepEqual(m._getNextPosition(), {
+                    x: margin + width + margin,
+                    y: margin,
+                });
+                m._childrens.push(0);
+                assert.deepEqual(m._getNextPosition(), {
+                    x: margin + width + margin + margin + width,
+                    y: margin,
+                });
+            });
+        });
     });
 
     if (window.mochaPhantomJS) {

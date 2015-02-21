@@ -21,25 +21,25 @@ define([
 
     'use strict';
 
-    var defaultOptions = {
-        helth: 0,
-        strength: 0,
-    };
-
     /**
-     * @param {Object} [o] Options
-     * @param {Number} [o.helth=0] unit helth value
-     * @param {Number} [o.strength=0] unit strength value
+     * @param {Object} o Options
+     * @param {String} o.id unit id
+     * @param {Number} o.index
+     * @param {Number} o.helth unit helth value
+     * @param {Number} o.strength unit strength value
+     * @param {Object} o.position
+     * @param {Number} o.position.x
+     * @param {Number} o.position.y
      * @constructor
      * @alias module:UnitPanelItem
      */
     var UnitPanelItem = function (o) {
-        o = _.defaults(o || {}, defaultOptions);
-
+        this._id = o.id;
+        this._index = o.index;
         this._helth = o.helth;
         this._strength = o.strength;
+        this._position = o.position;
 
-        this._index = 0;
         this._shape = null;
 
         this._initialize();
@@ -69,10 +69,7 @@ define([
                     hovered: '../../i/button-hovered.png',
                     pressed: '../../i/button-pressed.png',
                 },
-                position: {
-                    x: 10,
-                    y: 10,
-                },
+                position: this._position,
                 width: 200,
                 height: 200,
                 /**

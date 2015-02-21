@@ -2,12 +2,10 @@ define([
     'pixi',
     'controlPanel',
     'unitPanel',
-    'unitPanelItem',
 ], function (
     PIXI,
     ControlPanel,
-    UnitPanel,
-    UnitPanelItem
+    UnitPanel
 ) {
 
     'use strict';
@@ -50,17 +48,16 @@ define([
     });
     controlPanel.addChild(unitPanel.getShape());
 
-    var unitPanelItem = new UnitPanelItem({
+    unitPanel.addUnit({
+        id: '01',
         helth: 100,
         strength: 30,
     });
-    unitPanel.addChild(unitPanelItem.getShape());
-
-    var unitPanelItem2 = new UnitPanelItem({
+    unitPanel.addUnit({
+        id: '02',
         helth: 60,
         strength: 90,
     });
-    unitPanel.addChild(unitPanelItem2.getShape());
 
     /**
      */
