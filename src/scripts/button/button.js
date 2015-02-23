@@ -27,6 +27,11 @@ define([
         },
         width: 0,
         height: 0,
+        text: null,
+        textColor: '#ffffff',
+        fontSize: '12px',
+        fontStyle: 'normal',
+        fontFamily: 'monospace',
         onClick: null,
         onTap: null,
     };
@@ -40,8 +45,13 @@ define([
      * @param {Object} [o.position]
      * @param {Number} [o.position.x=0]
      * @param {Number} [o.position.y=0]
-     * @param {Number} [o.width=100]
-     * @param {Number} [o.height=10]
+     * @param {Number} [o.width=0]
+     * @param {Number} [o.height=0]
+     * @param {String} [o.text]
+     * @param {String} [o.textColor='#ffffff']
+     * @param {String} [o.fontSize='12px']
+     * @param {String} [o.fontStyle='normal']
+     * @param {String} [o.fontFamily='monospace']
      * @param {Function} [o.onClick]
      * @param {Function} [o.onTap]
      * @constructor
@@ -53,6 +63,11 @@ define([
         this._position = o.position;
         this._width = o.width;
         this._height = o.height;
+        this._text = o.text;
+        this._textColor = o.textColor;
+        this._fontSize = o.fontSize;
+        this._fontStyle = o.fontStyle;
+        this._fontFamily = o.fontFamily;
         this._onClickCallback = o.onClick;
         this._onTapCallback = o.onTap;
 
@@ -96,6 +111,17 @@ define([
             shape.interactive = true;
             shape.x = this._position.x;
             shape.y = this._position.y;
+
+            if (this._text) {
+                var text = new PIXI.Text(this._text, {
+                    font: this._fontSize + ' ' + this._fontStyle + ' ' + this._fontFamily,
+                    fill: this._textColor,
+                    align: 'center',
+                });
+                text.anchor.set(0.5, 0.5);
+                text.position.set(shape.width / 2, shape.height / 2);
+                shape.addChild(text);
+            }
 
             this._shape = shape;
 

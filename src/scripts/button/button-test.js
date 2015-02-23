@@ -181,6 +181,92 @@ define([
                     });
                 });
             });
+
+            describe('text', function () {
+                describe('`text` option', function () {
+                    it('should be `Null` on default', function () {
+                        var m = module();
+                        assert.isNull(m._text);
+                    });
+
+                    it('should display text', function () {
+                        var text = 'Hello World!';
+                        var m = module({
+                            text: text,
+                        });
+                        assert.equal(m._text, text);
+                        assert.instanceOf(m._shape.children[0], PIXI.Text);
+                    });
+                });
+
+                describe('`textColor` option', function () {
+                    it('should be `#ffffff` on default', function () {
+                        var m = module();
+                        assert.equal(m._textColor, '#ffffff');
+                    });
+
+                    it('should set text color', function () {
+                        var value = '#777777';
+                        var m = module({
+                            text: 'Hello World!',
+                            textColor: value,
+                        });
+                        assert.equal(m._textColor, value);
+                        assert.equal(m._shape.children[0].style.fill, value);
+                    });
+                });
+
+                describe('`fontSize` option', function () {
+                    it('should be `12px` on default', function () {
+                        var m = module();
+                        assert.equal(m._fontSize, '12px');
+                    });
+
+                    it('should set font size', function () {
+                        var value = '17px';
+                        var m = module({
+                            text: 'Hello World!',
+                            fontSize: value,
+                        });
+                        assert.equal(m._fontSize, value);
+                        assert.equal(m._shape.children[0].style.font.split(' ')[0], value);
+                    });
+                });
+
+                describe('`fontStyle` option', function () {
+                    it('should be `normal` on default', function () {
+                        var m = module();
+                        assert.equal(m._fontStyle, 'normal');
+                    });
+
+                    it('should set font style', function () {
+                        var value = 'normal';
+                        var m = module({
+                            text: 'Hello World!',
+                            fontStyle: value,
+                        });
+                        assert.equal(m._fontStyle, value);
+                        assert.equal(m._shape.children[0].style.font.split(' ')[1], value);
+                    });
+                });
+
+                describe('`fontFamily` option', function () {
+                    it('should be `monospace` on default', function () {
+                        var m = module();
+                        assert.equal(m._fontFamily, 'monospace');
+                    });
+
+                    it('should set font style', function () {
+                        var value = 'arial';
+                        var m = module({
+                            text: 'Hello World!',
+                            fontFamily: value,
+                        });
+                        assert.equal(m._fontFamily, value);
+                        assert.equal(m._shape.children[0].style.font.split(' ')[2], value);
+                    });
+                });
+            });
         });
 
         /**
